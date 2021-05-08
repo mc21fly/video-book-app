@@ -1,0 +1,37 @@
+.title {
+  display: inline-flex;
+  align-items: baseline;
+
+  &-value[data-locked="false"] {
+    &::after {
+      content: '\f3c1';
+      font-family: "Font Awesome 5 Free", sans-serif;
+      font-weight: 900;
+      font-size: .85rem;
+      margin-left: .5rem;
+      opacity: .15;
+    }
+  }
+
+  &-value[data-locked="true"] {
+    &::after {
+      content: '\f023';
+      font-family: "Font Awesome 5 Free", sans-serif;
+      font-weight: 900;
+      font-size: .85rem;
+      margin-left: .5rem;
+      margin-right: 0.2rem;
+      opacity: .35;
+    }
+  }
+
+  &-dropdown {
+    font-size: 1rem;
+    margin-right: .75rem;
+
+    &-icon:hover {
+      cursor: pointer;
+      opacity: .5;
+    }
+  }
+}
