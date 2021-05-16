@@ -23,8 +23,9 @@ const Navbar = () => {
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container px-3 px-sm-2">
-				<span id="app-name" className="navbar-brand mb-0 h1">
-					videobook
+				<span id="app-name" className="navbar-brand mb-0">
+					<span className="text-primary">video</span>
+					<span className="text-secondary">book</span>
 				</span>
 				<Desktop addList={onAddList} />
 				<Mobile addList={onAddList} />

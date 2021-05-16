@@ -1,6 +1,4 @@
 .title {
-  display: inline-flex;
-  align-items: baseline;
 
   &-value[data-locked="false"] {
     &::after {
@@ -29,9 +27,13 @@
     font-size: 1rem;
     margin-right: .75rem;
 
-    &-icon:hover {
-      cursor: pointer;
-      opacity: .5;
+    &-icon {
+      transition: .35s;
+
+      &:hover {
+        cursor: pointer;
+        color: #0D6EFDFF;
+      }
     }
   }
 }

@@ -19,7 +19,13 @@ const App = () => {
 	 */
 	useEffect(() => {
 		const lists_deserialized = JSON.parse(localStorage.getItem('lists'));
-		const lists_restored = lists_deserialized.map((list) => new _List().restore(list));
+		let lists_restored;
+
+		if (lists_deserialized) {
+			lists_restored = lists_deserialized.map((list) => new _List().restore(list));
+		} else {
+			lists_restored = [];
+		}
 
 		setLists(lists_restored);
 	}, []);
