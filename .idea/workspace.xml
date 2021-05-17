@@ -35,6 +35,11 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\micha\Desktop\GitHub\video-book-app\src" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -50,6 +55,7 @@
       <workItem from="1620848920742" duration="4851000" />
       <workItem from="1621087742714" duration="5261000" />
       <workItem from="1621093090305" duration="10084000" />
+      <workItem from="1621249209756" duration="1131000" />
     </task>
     <servers />
   </component>
