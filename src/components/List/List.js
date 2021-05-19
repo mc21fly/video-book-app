@@ -22,10 +22,6 @@ const List = () => {
 	};
 
 	useEffect(() => {
-		console.log(list);
-	}, [list]);
-
-	useEffect(() => {
 		if (currentPage > list.pages.length - 1) setCurrentPage(list.pages.length - 1);
 	}, [currentPage, list.pages]);
 

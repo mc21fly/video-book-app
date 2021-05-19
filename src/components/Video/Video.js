@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import './Video.scss';
-import API_KEYS from '../../private/API_KEY.json';
+import { YT_API_KEY } from '../../private/API_KEYS.js';
 
 import axios from 'axios';
 import date from 'date-and-time';
@@ -8,7 +8,7 @@ import { AppContext } from '../../contexts/AppContext';
 import { ListContext } from '../../contexts/ListContext';
 
 const Video = ({ video }) => {
-	const API_KEY = API_KEYS[0].YT_API_KEY;
+	const API_KEY = YT_API_KEY; // Use Your Google API Key
 
 	const { lists, setLists, functions } = useContext(AppContext);
 	const list = useContext(ListContext);
@@ -21,10 +21,6 @@ const Video = ({ video }) => {
 	const [addTime, setAddTime] = useState(
 		date.format(new Date(video.timeStamp), 'DD.MM.YY at HH:mm')
 	);
-
-	useEffect(() => {
-		console.log(API_KEYS[0].YT_API_KEY);
-	});
 
 	const getStatistics = () => {
 		axios
@@ -84,22 +80,12 @@ const Video = ({ video }) => {
 			.catch();
 	};
 
-	// useEffect(() => {
-	// 	getStatistics();
-	// 	getSnippet();
-	// 	getDetails();
-	// 	setAddTime(date.format(new Date(video.timeStamp), 'DD.MM.YY at HH:mm'));
-	// }, []);
-	//
-	// useEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		getStatistics();
-	// 		getSnippet();
-	// 		getDetails();
-	// 	}, 1000);
-	//
-	// 	return () => clearInterval(interval);
-	// });
+	useEffect(() => {
+		getStatistics();
+		getSnippet();
+		getDetails();
+		setAddTime(date.format(new Date(video.timeStamp), 'DD.MM.YY at HH:mm'));
+	}, []);
 
 	return (
 		<div className="col-12 col-sm-4 col-lg-3 py-2 d-flex">
