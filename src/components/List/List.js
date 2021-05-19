@@ -106,9 +106,8 @@ const Title = ({ list, remove, addVideo, toggleLock }) => {
 
 	const TitleModule = () => {
 		const handleAdd = (e) => {
-			if (e.ctrlKey && e.key === 'v') {
-				addVideo(e.target.value);
-			}
+			if ((e.ctrlKey && e.key === 'v') || e.key === 'V') addVideo(e.target.value);
+			if (e.key === 'Enter') addVideo(e.target.value);
 		};
 
 		return (
@@ -120,7 +119,7 @@ const Title = ({ list, remove, addVideo, toggleLock }) => {
 					<input
 						className="form-control"
 						type="text"
-						placeholder="Add video.."
+						placeholder="Paste link to video.."
 						disabled={list.isLocked}
 						onKeyUp={handleAdd}
 					/>
