@@ -4,13 +4,12 @@ import { YT_API_KEY } from '../../private/API_KEYS.js';
 
 import axios from 'axios';
 import date from 'date-and-time';
-import { AppContext } from '../../contexts/AppContext';
 import { ListContext } from '../../contexts/ListContext';
+import { AppContext } from '../../contexts/AppContext';
 
-const Video = ({ video }) => {
+const Video = ({ video, remove }) => {
 	const API_KEY = YT_API_KEY; // Use Your Google API Key
-
-	const { lists, setLists, functions } = useContext(AppContext);
+	const { lists, setLists } = useContext(AppContext);
 	const list = useContext(ListContext);
 
 	const [isLiveBroadcast, setIsLiveBroadcast] = useState('none');
@@ -21,6 +20,20 @@ const Video = ({ video }) => {
 	const [addTime, setAddTime] = useState(
 		date.format(new Date(video.timeStamp), 'DD.MM.YY at HH:mm')
 	);
+
+	const handleToggleFavourite = () => {
+		const _lists = [...lists];
+		const _list = list;
+		const _video = video;
+		const _listIndex = _lists.indexOf(list);
+		const _videoIndex = _list.videos.indexOf(video);
+
+		_video.toggleFavourite();
+		_list.videos.splice(_videoIndex, 1, _video);
+		_lists.splice(_listIndex, 1, _list);
+
+		setLists(_lists);
+	};
 
 	const getStatistics = () => {
 		axios
@@ -115,10 +128,7 @@ const Video = ({ video }) => {
 					</div>
 				</div>
 				<div className="card-body d-flex align-items-end justify-content-between">
-					<button
-						className="btn no-shadow p-0"
-						disabled={list.isLocked}
-						onClick={() => setLists(functions.toggleVideoFavourite(lists, list, video))}>
+					<button className="btn no-shadow p-0" disabled={list.isLocked} onClick={handleToggleFavourite}>
 						<i
 							className={`favourite ${video.isFavourite ? 'fas' : 'far'} fa-heart ${
 								video.isFavourite ? 'text-danger' : 'text-black'
@@ -127,7 +137,7 @@ const Video = ({ video }) => {
 					</button>
 					<div className="d-flex justify-content-center align-items-center">
 						<p className="time text-muted m-0 me-3">added {addTime}</p>
-						<Dropdown video={video} />
+						<Dropdown remove={remove} />
 					</div>
 				</div>
 			</div>
@@ -135,8 +145,7 @@ const Video = ({ video }) => {
 	);
 };
 
-const Dropdown = ({ video }) => {
-	const { lists, setLists, functions } = useContext(AppContext);
+const Dropdown = ({ remove }) => {
 	const list = useContext(ListContext);
 
 	return (
@@ -149,7 +158,7 @@ const Dropdown = ({ video }) => {
 					<button
 						className={`dropdown-item ${list.isLocked ? 'disabled' : 'text-danger'}`}
 						disabled={list.isLocked}
-						onClick={() => setLists(functions.removeVideo(lists, list, video))}>
+						onClick={remove}>
 						<i className="far fa-trash-alt dropdown-icon" />
 						Remove video
 					</button>

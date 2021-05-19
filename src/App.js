@@ -1,51 +1,46 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import './App.scss';
+
+import { ListContext } from './contexts/ListContext';
+import { AppContext } from './contexts/AppContext';
 
 import { Navbar, List } from './components';
 
 import _List from './assets/objects/List';
 
-import { AppContext } from './contexts/AppContext';
-import { ListContext } from './contexts/ListContext';
-
-import { _functions } from './assets/functions/functions';
-
 const App = () => {
 	const [lists, setLists] = useState([]);
-	const [functions] = useState(_functions);
 
-	/*
-	 * Restore lists from LocalStorage
-	 */
-	useEffect(() => {
-		const lists_deserialized = JSON.parse(localStorage.getItem('lists'));
-		let lists_restored;
+	const handleAddList = (title) => {
+		const _lists = [...lists];
+		let list;
 
-		if (lists_deserialized) {
-			lists_restored = lists_deserialized.map((list) => new _List().restore(list));
-		} else {
-			lists_restored = [];
-		}
+		title === '' ? (list = new _List(`List #${_lists.length + 1}`)) : (list = new _List(title));
 
-		setLists(lists_restored);
-	}, []);
+		_lists.push(list);
 
-	/*
-	 * Save lists to LocalStorage every change
-	 */
-	useEffect(() => {
-		const lists_serialized = JSON.stringify(lists);
-		localStorage.setItem('lists', lists_serialized);
-	}, [lists]);
+		setLists(_lists);
+	};
+
+	const handleRemoveList = (list) => {
+		const _lists = [...lists];
+		const listIndex = _lists.indexOf(list);
+
+		_lists.splice(listIndex, 1);
+
+		setLists(_lists);
+	};
+
+	const restoreLists = () => {};
 
 	return (
-		<AppContext.Provider value={{ lists, setLists, functions }}>
+		<AppContext.Provider value={{ lists, setLists }}>
 			<div className="container-fluid p-0">
-				<Navbar />
+				<Navbar add={handleAddList} />
 
 				{lists.map((list, i) => (
 					<ListContext.Provider key={i} value={list}>
-						<List />
+						<List remove={() => handleRemoveList(list)} />
 					</ListContext.Provider>
 				))}
 			</div>

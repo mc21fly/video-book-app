@@ -1,25 +1,7 @@
+import { useRef } from 'react';
 import './Navbar.scss';
 
-import { AppContext } from '../../contexts/AppContext';
-import { useContext, useRef } from 'react';
-
-import List from '../../assets/objects/List';
-
-const Navbar = () => {
-	const { lists, setLists } = useContext(AppContext);
-
-	const onAddList = (title) => {
-		let newList;
-
-		if (title === '') {
-			newList = new List(`List #${lists.length + 1}`);
-		} else {
-			newList = new List(title);
-		}
-
-		setLists([...lists, newList]);
-	};
-
+const Navbar = ({ add }) => {
 	return (
 		<nav className="navbar navbar-light bg-light">
 			<div className="container px-3 px-sm-2">
@@ -27,8 +9,8 @@ const Navbar = () => {
 					<span className="text-primary">video</span>
 					<span className="text-secondary">book</span>
 				</span>
-				<Desktop addList={onAddList} />
-				<Mobile addList={onAddList} />
+				<Desktop addList={add} />
+				<Mobile addList={add} />
 			</div>
 		</nav>
 	);
@@ -63,11 +45,7 @@ const Mobile = ({ addList }) => {
 				data-bs-target="#hiddenMenu">
 				<i className="fas fa-bars" style={{ fontSize: '1.5rem' }} />
 			</button>
-			<div
-				className="offcanvas offcanvas-end"
-				tabIndex="-1"
-				id="hiddenMenu"
-				aria-labelledby="offcanvasExampleLabel">
+			<div className="offcanvas offcanvas-end" tabIndex="-1" id="hiddenMenu">
 				<div className="offcanvas-header">
 					<button
 						type="button"

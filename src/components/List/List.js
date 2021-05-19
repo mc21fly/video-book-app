@@ -1,12 +1,15 @@
 import './List.scss';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from '../../contexts/AppContext';
+import { useContext, useState } from 'react';
 import { ListContext } from '../../contexts/ListContext';
 
 import Video from '../Video/Video';
+import _Video from '../../assets/objects/Video';
+import { AppContext } from '../../contexts/AppContext';
 
-const List = () => {
+const List = ({ remove }) => {
+	const { lists, setLists } = useContext(AppContext);
 	const list = useContext(ListContext);
+
 	const [currentPage, setCurrentPage] = useState(0);
 
 	const onPrev = () => {
@@ -21,13 +24,46 @@ const List = () => {
 		setCurrentPage(number);
 	};
 
-	useEffect(() => {
-		if (currentPage > list.pages.length - 1) setCurrentPage(list.pages.length - 1);
-	}, [currentPage, list.pages]);
+	const handleAddVideo = (url) => {
+		const _lists = [...lists];
+		const _list = list;
+		const _listIndex = _lists.indexOf(list);
+		const video = new _Video(url);
+
+		_list.addVideo(video);
+
+		_lists.splice(_listIndex, 1, _list);
+
+		setLists(_lists);
+	};
+
+	const handleToggleLock = () => {
+		const _lists = [...lists];
+		const _list = list;
+		const _listIndex = _lists.indexOf(_list);
+
+		_list.toggleLock();
+
+		_lists.splice(_listIndex, 1, _list);
+
+		setLists(_lists);
+	};
+
+	const handleRemoveVideo = (video) => {
+		const _lists = [...lists];
+		const _list = list;
+		const _listIndex = _lists.indexOf(list);
+
+		_list.remove(video);
+
+		_lists.splice(_listIndex, 1, _list);
+
+		setLists(_lists);
+	};
 
 	return (
 		<div className="container mt-5 mb-5 px-3 px-sm-2">
-			<Title />
+			<Title list={list} remove={remove} addVideo={handleAddVideo} toggleLock={handleToggleLock} />
 			<div className="row gy-2">
 				<div
 					id={`carousel-${list.id}`}
@@ -40,7 +76,7 @@ const List = () => {
 								<div key={key} className={`carousel-item ${key === currentPage ? 'active' : ''}`}>
 									<div className="row">
 										{page.map((video, index) => {
-											return <Video key={index} video={video} />;
+											return <Video key={index} video={video} remove={() => handleRemoveVideo(video)} />;
 										})}
 									</div>
 								</div>
@@ -64,16 +100,14 @@ const List = () => {
 	);
 };
 
-const Title = () => {
-	const { lists, setLists, functions } = useContext(AppContext);
-	const list = useContext(ListContext);
+const Title = ({ list, remove, addVideo, toggleLock }) => {
 	const [isRenamed, setIsRenamed] = useState(false);
 
 	const TitleModule = () => {
 		const handleAdd = (e) => {
-			if (e.ctrlKey && (e.key === 'v' || e.key === 'V'))
-				setLists(functions.addVideo(lists, list, e.target.value));
-			if (e.key === 'Enter') setLists(functions.addVideo(lists, list, e.target.value));
+			if (e.ctrlKey && e.key === 'v') {
+				addVideo(e.target.value);
+			}
 		};
 
 		return (
@@ -96,8 +130,7 @@ const Title = () => {
 
 	const RenameModule = () => {
 		const handleRename = (e) => {
-			setIsRenamed(false);
-			setLists(functions.renameList(lists, list, e.target.value));
+			// TODO handle rename list
 		};
 
 		const handleKeyDown = (e) => {
@@ -120,15 +153,14 @@ const Title = () => {
 	return (
 		<div className="row mb-sm-2">
 			<div className="col d-flex align-items-center h5">
-				<Dropdown onRenameList={() => setIsRenamed(true)} />
+				<Dropdown onRenameList={() => setIsRenamed(true)} remove={remove} toggleLock={toggleLock} />
 				{isRenamed ? <RenameModule /> : <TitleModule />}
 			</div>
 		</div>
 	);
 };
 
-const Dropdown = ({ onRenameList }) => {
-	const { lists, setLists, functions } = useContext(AppContext);
+const Dropdown = ({ onRenameList, remove, toggleLock }) => {
 	const list = useContext(ListContext);
 
 	return (
@@ -138,7 +170,7 @@ const Dropdown = ({ onRenameList }) => {
 			</div>
 			<ul className="dropdown-menu">
 				<li>
-					<button className="dropdown-item" onClick={() => setLists(functions.toggleLock(lists, list))}>
+					<button className="dropdown-item" onClick={toggleLock}>
 						<i className={`fas ${list.isLocked ? 'fa-lock-open' : 'fa-lock'} dropdown-icon`} />{' '}
 						{`${list.isLocked ? 'Unlock' : 'Lock'} list`}
 					</button>
@@ -156,7 +188,7 @@ const Dropdown = ({ onRenameList }) => {
 				<li>
 					<button
 						className={`dropdown-item ${list.isLocked ? 'disabled' : 'text-danger'}`}
-						onClick={() => setLists(functions.removeList(lists, list))}>
+						onClick={remove}>
 						<i className="far fa-trash-alt dropdown-icon" /> Remove list
 					</button>
 				</li>
