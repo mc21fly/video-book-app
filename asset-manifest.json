@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/video-book-app/static/css/main.2ace263c.chunk.css",
+    "main.js": "/video-book-app/static/js/main.c09c992b.chunk.js",
+    "main.js.map": "/video-book-app/static/js/main.c09c992b.chunk.js.map",
+    "runtime-main.js": "/video-book-app/static/js/runtime-main.7f2d39c0.js",
+    "runtime-main.js.map": "/video-book-app/static/js/runtime-main.7f2d39c0.js.map",
+    "static/css/2.acd75131.chunk.css": "/video-book-app/static/css/2.acd75131.chunk.css",
+    "static/js/2.81f59430.chunk.js": "/video-book-app/static/js/2.81f59430.chunk.js",
+    "static/js/2.81f59430.chunk.js.map": "/video-book-app/static/js/2.81f59430.chunk.js.map",
+    "index.html": "/video-book-app/index.html",
+    "static/css/2.acd75131.chunk.css.map": "/video-book-app/static/css/2.acd75131.chunk.css.map",
+    "static/css/main.2ace263c.chunk.css.map": "/video-book-app/static/css/main.2ace263c.chunk.css.map",
+    "static/js/2.81f59430.chunk.js.LICENSE.txt": "/video-book-app/static/js/2.81f59430.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7f2d39c0.js",
+    "static/css/2.acd75131.chunk.css",
+    "static/js/2.81f59430.chunk.js",
+    "static/css/main.2ace263c.chunk.css",
+    "static/js/main.c09c992b.chunk.js"
+  ]
+}
