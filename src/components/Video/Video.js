@@ -98,7 +98,7 @@ const Video = ({ video, remove }) => {
 		getSnippet();
 		getDetails();
 		setAddTime(date.format(new Date(video.timeStamp), 'DD.MM.YY at HH:mm'));
-	}, []);
+	}, [video.id]);
 
 	return (
 		<div className="col-12 col-sm-4 col-lg-3 py-2 d-flex">

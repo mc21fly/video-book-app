@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.scss';
 
 import { ListContext } from './contexts/ListContext';
@@ -31,7 +31,29 @@ const App = () => {
 		setLists(_lists);
 	};
 
-	const restoreLists = () => {};
+	/*
+	 * Restore lists from LocalStorage
+	 */
+	useEffect(() => {
+		const lists_deserialized = JSON.parse(localStorage.getItem('lists'));
+		let lists_restored;
+
+		if (lists_deserialized) {
+			lists_restored = lists_deserialized.map((list) => new _List().restore(list));
+		} else {
+			lists_restored = [];
+		}
+
+		setLists(lists_restored);
+	}, []);
+
+	/*
+	 * Save lists to LocalStorage every time lists change
+	 */
+	useEffect(() => {
+		const lists_serialized = JSON.stringify(lists);
+		localStorage.setItem('lists', lists_serialized);
+	}, [lists]);
 
 	return (
 		<AppContext.Provider value={{ lists, setLists }}>

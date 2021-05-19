@@ -101,6 +101,7 @@ const List = ({ remove }) => {
 };
 
 const Title = ({ list, remove, addVideo, toggleLock }) => {
+	const { lists, setLists } = useContext(AppContext);
 	const [isRenamed, setIsRenamed] = useState(false);
 
 	const TitleModule = () => {
@@ -130,7 +131,16 @@ const Title = ({ list, remove, addVideo, toggleLock }) => {
 
 	const RenameModule = () => {
 		const handleRename = (e) => {
-			// TODO handle rename list
+			const _lists = [...lists];
+			const _list = list;
+			const _listIndex = _lists.indexOf(list);
+
+			_list.rename(e.target.value);
+
+			_lists.splice(_listIndex, 1, _list);
+
+			setLists(_lists);
+			setIsRenamed(false);
 		};
 
 		const handleKeyDown = (e) => {
